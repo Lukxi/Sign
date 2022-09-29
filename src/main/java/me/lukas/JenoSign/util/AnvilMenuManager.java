@@ -1,0 +1,59 @@
+package me.lukas.JenoSign.util;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+
+public class AnvilMenuManager implements Listener {
+    public static final ArrayList<Inventory> invList = new ArrayList<>();
+
+    public void createAnvilMenu(Player p, ItemStack item, String n) {
+        Inventory inv = Bukkit.createInventory(p, InventoryType.ANVIL, n);
+        inv.setItem(0, item);
+        invList.add(inv);
+        p.openInventory(inv);
+    }
+
+    public ArrayList<Inventory> getInvList(){
+        return invList;
+    }
+
+    public void removeInv(Inventory inv){
+        invList.remove(inv);
+    }
+
+    public Inventory checkForInv(Inventory inv){
+        for (Inventory invFound:invList){
+            if (invFound == inv){
+                return invFound;
+            }
+        }
+        return null;
+    }
+
+    @EventHandler
+    public void clickEvent(InventoryClickEvent e){
+        if (new AnvilMenuManager().checkForInv(e.getClickedInventory()) != null){
+            e.setCancelled(true);
+            if (e.getSlot() == 2) {
+                new AnvilMenuManager().removeInv(e.getInventory());
+            }
+        }
+    }
+
+    @EventHandler
+    public void closeEvent(InventoryCloseEvent e){
+        if (new AnvilMenuManager().checkForInv(e.getInventory()) != null){
+            new AnvilMenuManager().removeInv(e.getInventory());
+        }
+    }
+}

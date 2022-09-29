@@ -1,0 +1,10 @@
+name: JenoSign
+version: '${project.version}'
+main: me.lukas.JenoSign.JenoSign
+api-version: 1.19
+commands:
+  sign:
+    description: Signiere das Item in deiner Hand!
+
+  unsign:
+    description: Entferne die Signatur von Items!
