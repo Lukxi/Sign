@@ -2,6 +2,12 @@ package me.lukas.JenoSign.util;
 
 import com.google.common.collect.Lists;
 import me.lukas.JenoSign.JenoSign;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
+import net.luckperms.api.node.NodeType;
+import net.luckperms.api.platform.Platform;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -11,7 +17,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class Sign {
 
@@ -99,7 +108,7 @@ public class Sign {
     public ItemStack createDeploySign(){
 
         String z = manageTime(time);
-        String Signiert = manageName(name);
+        String Signiert = manageName(name, p.getUniqueId());
 
         ItemStack i = new ItemStack(item);
         ItemMeta m = i.getItemMeta();
@@ -132,6 +141,11 @@ public class Sign {
         l.add(Signiert + z);
         m.setLore(l);
 
+        if (isEnchant){
+            m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            m.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        }
+
         i.setItemMeta(m);
         return i;
     }
@@ -139,7 +153,7 @@ public class Sign {
     public ItemStack createDeploySign(String[] s){
 
         String z = manageTime(time);
-        String Signiert = manageName(name);
+        String Signiert = manageName(name, p.getUniqueId());
         ItemStack i = new ItemStack(item);
         ItemMeta m = i.getItemMeta();
         ArrayList<String> l= new ArrayList<>();
@@ -173,6 +187,11 @@ public class Sign {
         l.add(Signiert + z);
         m.setLore(l);
 
+        if (isEnchant){
+            m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            m.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        }
+
         i.setItemMeta(m);
         return i;
     }
@@ -183,7 +202,7 @@ public class Sign {
 
     public ItemStack createDeploySignSettings(String[] s){
         String z = manageTime(s[0]);
-        String Signiert = manageName(s[1]);
+        String Signiert = manageName(s[1], p.getUniqueId());
 
         ItemStack i = new ItemStack(item);
         ItemMeta m = i.getItemMeta();
@@ -216,6 +235,11 @@ public class Sign {
         l.add(Signiert + z);
         m.setLore(l);
 
+        if (isEnchant){
+            m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            m.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        }
+
         i.setItemMeta(m);
         return i;
     }
@@ -237,7 +261,16 @@ public class Sign {
         return z;
     }
 
-    private String manageName(String s){
+    private String manageName(String s, UUID uuid){
+            String suffix = "";
+        try {
+            LuckPerms lp = LuckPermsProvider.get();
+            User u = lp.getUserManager().loadUser(uuid).get();
+            suffix = u.getCachedData().getMetaData().getSuffix();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        suffix = suffix.replace("&","§");
         String signiert = "§7Signiert von ";
         if (s == null){
             signiert = "§7Signiert ";
@@ -245,7 +278,7 @@ public class Sign {
         }else if (s.equalsIgnoreCase("Jeno")){
             signiert = "§7Signiert vom §4§lJenoMiners-Team ";
             return signiert;
-        }else return signiert + p.getName()+" ";
+        }else return signiert + suffix + p.getName()+" ";
     }
 
     public ItemStack createDeploySignLores(){
@@ -385,7 +418,12 @@ public class Sign {
     }
 
     public void setLore(String[] s){
-
+        if (s == null){
+            line1="";
+            line2="";
+            line3="";
+            line4="";
+        }
         if (s[0] != null){
             line1 = s[0];
         }
