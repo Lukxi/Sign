@@ -66,7 +66,7 @@ public class ProtocolLibReader {
                                 input = input.replaceFirst(" ", "");
                             }
                             input = input.replace("&", "§");
-                            if(p.getOpenInventory().getTitle().equalsIgnoreCase("§5§lBearbeite den Item-Namen")){
+                            if(p.getOpenInventory().getTitle().equalsIgnoreCase("§5§lItem-Namen bearbeiten")){
 
                                 SignManager.changeItemName(p.getUniqueId(), input);
                             }else if (p.getOpenInventory().getTitle().contains("Lore")){
@@ -107,7 +107,7 @@ public class ProtocolLibReader {
                                 @Override
                                 public void run() {
                                     if (counter == 1){
-                                        if (title.equalsIgnoreCase("§5§lBearbeite den Item-Namen")) {
+                                        if (title.equalsIgnoreCase("§5§lItem-Namen bearbeiten")) {
                                             InventoryMenuManager.getInstance().openMenu(p, new SettingsGUI());
                                         }else {
                                             InventoryMenuManager.getInstance().openMenu(p, new EditLoresGUI());
