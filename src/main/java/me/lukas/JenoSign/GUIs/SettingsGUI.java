@@ -1,7 +1,9 @@
 package me.lukas.JenoSign.GUIs;
 
 import com.sun.org.apache.xerces.internal.xs.StringList;
+import me.lukas.JenoSign.JenoSign;
 import me.lukas.JenoSign.util.AnvilMenuManager;
+import me.lukas.JenoSign.util.ItemBuilder;
 import me.lukas.JenoSign.util.Sign;
 import me.lukas.JenoSign.util.SignManager;
 import me.oxolotel.utils.bukkit.menuManager.InventoryMenuManager;
@@ -24,16 +26,19 @@ public class SettingsGUI extends CustomMenu implements Closeable, SlotCondition{
     public SettingsGUI() {
         super(54);
         c = new InventoryContent();
+        setTitle("§b§lSign §r§8v."+ JenoSign.VERSION + " §r§4by Lukxi");
     }
 
     @Override
     public void onClose(Player player, ItemStack[] itemStacks, CloseReason closeReason) {
-
+        if (!closeReason.equals(CloseReason.CHANGEMENU)){
+            SignManager.signMap.remove(player.getUniqueId());
+        }
     }
 
     @Override
     public InventoryContent getContents(Player player) {
-        c.fill(0, 53, new InventoryItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), ()->{}));
+        c.fill(0, 53, new InventoryItem(new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName(" ").build(), ()->{}));
 
         ItemStack i = new ItemStack(SignManager.signMap.get(player.getUniqueId()).createDeploySign());
 
@@ -42,22 +47,26 @@ public class SettingsGUI extends CustomMenu implements Closeable, SlotCondition{
             InventoryMenuManager.getInstance().closeMenu(player, Closeable.CloseReason.CHANGEMENU);
 
             new AnvilMenuManager().createAnvilMenu(player, SignManager.getItemNoDefaultName(player.getUniqueId()),
-                    "§5§lBearbeite den Item-Namen");
+                    "§5§lItem-Namen bearbeiten");
         }, Material.ANVIL, "§5§lBearbeite den Item-Namen");
         c.addGuiItem(30, ()->{
             InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
             InventoryMenuManager.getInstance().openMenu(player, new EditLoresGUI());
 
         }, Material.LOOM, "§6§lBearbeite die Lores");
-        c.addGuiItem(32, ()->{}, Material.ENCHANTING_TABLE, "§b§lVerzaubern");
+        c.addGuiItem(32, ()->{
+            SignManager.signMap.get(player.getUniqueId()).setEnchant(!SignManager.signMap.get(player.getUniqueId()).isEnchant());
+            InventoryMenuManager.getInstance().getOpenMenu(player).generateInventory();
+        }, Material.ENCHANTING_TABLE, "§b§lVerzaubern");
         c.addGuiItem(34, ()->{
-            InventoryMenuManager.getInstance().closeMenu(player);
+            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
             InventoryMenuManager.getInstance().openMenu(player, new SignatureSettingsGUI());
-        }, Material.CLOCK, "§5§lBearbeite die Signatur");
+        }, Material.CLOCK, "§9§lSignatur Einstellungen");
         c.addGuiItem(53, ()->{
+            player.getInventory().setItemInMainHand(SignManager.signMap.get(player.getUniqueId()).createDeploySign());
             InventoryMenuManager.getInstance().closeMenu(player);
             SignManager.signMap.remove(player.getUniqueId());
-            //SignManager.signMap.get(player.getUniqueId()).setSign();
+            EditLoresGUI.signMap.remove(player.getUniqueId());
         }, Material.LIME_STAINED_GLASS_PANE, "§a§lSignieren");
         c.addGuiItem(52, ()->{
             SignManager.signMap.remove(player.getUniqueId());

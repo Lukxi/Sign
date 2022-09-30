@@ -1,6 +1,7 @@
 package me.lukas.JenoSign.commands;
 
 import me.lukas.JenoSign.GUIs.SettingsGUI;
+import me.lukas.JenoSign.JenoSign;
 import me.lukas.JenoSign.util.Sign;
 import me.lukas.JenoSign.util.SignManager;
 import me.oxolotel.utils.bukkit.menuManager.InventoryMenuManager;
@@ -73,7 +74,7 @@ public class SignCommand implements CommandExecutor {
         player.sendMessage("§8-=[§b§l●§8] §4§lSign Plugin by Lukxi §8[§b§l●§8]=-");
         player.sendMessage("§e/sign <Text> §f- §7Signiere Items");
         player.sendMessage("§e/unsign §f- §7entferne die Signatur");
-        player.sendMessage("§eVersion: §71.1");
+        player.sendMessage("§eVersion: §7" + JenoSign.VERSION);
 
     }
 
