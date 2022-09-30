@@ -16,6 +16,7 @@ public final class JenoSign extends JavaPlugin {
     public JenoSign plugin;
 
     public static final String PREFIX = "§7§l[§b§lQuest§7§l]";
+    public static final String VERSION = "2.0";
 
     @Override
     public void onEnable() {
@@ -38,26 +39,6 @@ public final class JenoSign extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    private void loadConfig(){
-
-
-        this.getConfig().options().header(
-                "#  +----------------------------------------------------------------------------------------------+ # \n" +
-                        "#  |                                       ___     ___   _                                        | # \n" +
-                        "#  |                                      |___  | | __  | | |                                     | # \n" +
-                        "#  |                                       ___| | |___| | |_| Plugin made                         | # \n" +
-                        "#  |                                                                     with ♡ by Lukxi          | # \n" +
-                        "#  +----------------------------------------------------------------------------------------------+ # \n");
-
-        if (!this.getConfig().isSet("SignPlugin.signcommand.SignSettings")) {
-            this.getConfig().addDefault("SignPlugin.signcommand.SignSettings", true);
-        }
-        //SignSettings = this.getConfig().getBoolean("SignPlugin.signcommand.SignSettings");
-
-        this.getConfig().options().copyDefaults(true);
-        this.saveConfig();
-
-    }
 
     public JenoSign getPlugin() {
         return plugin;
