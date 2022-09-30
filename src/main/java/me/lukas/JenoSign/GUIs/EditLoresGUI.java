@@ -33,7 +33,9 @@ public class EditLoresGUI extends CustomMenu implements Closeable, SlotCondition
 
     @Override
     public void onClose(Player player, ItemStack[] itemStacks, CloseReason closeReason) {
-
+            if (!closeReason.equals(CloseReason.CHANGEMENU)){
+               // signMap.remove(player.getUniqueId());
+            }
     }
 
     @Override
@@ -42,13 +44,14 @@ public class EditLoresGUI extends CustomMenu implements Closeable, SlotCondition
 
         String[] lores = null;
         if (signMap.containsKey(player.getUniqueId())) {
-            lores = SignManager.signMap.get(player.getUniqueId()).getLore();
+
+            lores = initLores(player.getUniqueId());
         }else {
             signMap.put(player.getUniqueId(),SignManager.signMap.get(player.getUniqueId()).getLore());
-            lores = signMap.get(player.getUniqueId());
+            lores = initLores(player.getUniqueId());
         }
         ItemStack i = new ItemStack(SignManager.signMap.get(player.getUniqueId()).createDeploySign(signMap.get(player.getUniqueId())));
-        c.addGuiItem(16, new InventoryItem(new SkullBuilder("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDRmN2JjMWZhODIxN2IxOGIzMjNhZjg0MTM3MmEzZjdjNjAyYTQzNWM4MjhmYWE0MDNkMTc2YzZiMzdiNjA1YiJ9fX0===",
+        c.addGuiItem(16, new InventoryItem(new SkullBuilder("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDRmN2JjMWZhODIxN2IxOGIzMjNhZjg0MTM3MmEzZjdjNjAyYTQzNWM4MjhmYWE0MDNkMTc2YzZiMzdiNjA1YiJ9fX0=",
                 "§9§lSign Preview").build(), ()->{}));
         c.addGuiItem(25, new InventoryItem(i, ()->{}));
 
@@ -79,16 +82,20 @@ public class EditLoresGUI extends CustomMenu implements Closeable, SlotCondition
 
         String[] l = signMap.get(player.getUniqueId());
         c.addGuiItem(12, new InventoryItem(new ItemBuilder(Material.ANVIL).setDisplayName("Bearbeite die erste Lore").build(), ()->{
+            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
             new AnvilMenuManager().createAnvilMenu(player, new ItemBuilder(Material.MAP).setDisplayName(lore[0]).build(), "Lore 1");
         }));
 
         c.addGuiItem(21, new InventoryItem(new ItemBuilder(Material.ANVIL).setDisplayName("Bearbeite die zweite Lore").build(), ()->{
+            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
             new AnvilMenuManager().createAnvilMenu(player, new ItemBuilder(Material.MAP).setDisplayName(lore[1]).build(), "Lore 2");
         }));
         c.addGuiItem(30, new InventoryItem(new ItemBuilder(Material.ANVIL).setDisplayName("Bearbeite die dritte Lore").build(), ()->{
+            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
             new AnvilMenuManager().createAnvilMenu(player, new ItemBuilder(Material.MAP).setDisplayName(lore[2]).build(), "Lore 3");
         }));
         c.addGuiItem(39, new InventoryItem(new ItemBuilder(Material.ANVIL).setDisplayName("Bearbeite die vierte Lore").build(), ()->{
+            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
             new AnvilMenuManager().createAnvilMenu(player, new ItemBuilder(Material.MAP).setDisplayName(lore[3]).build(), "Lore 4");
         }));
 
@@ -136,13 +143,13 @@ public class EditLoresGUI extends CustomMenu implements Closeable, SlotCondition
 
 
         c.addGuiItem(53, ()->{
-            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
+            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.OTHER);
             SignManager.setLores(player.getUniqueId(), signMap.get(player.getUniqueId()));
             InventoryMenuManager.getInstance().openMenu(player, new SettingsGUI());
         }, Material.SLIME_BALL, "§a§lAnwenden");
 
         c.addGuiItem(52, ()->{
-            InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
+            InventoryMenuManager.getInstance().closeMenu(player);
             signMap.remove(player.getUniqueId());
             InventoryMenuManager.getInstance().openMenu(player, new SettingsGUI());
         }, Material.BARRIER, "§c§lAbbrechen");
@@ -155,6 +162,7 @@ public class EditLoresGUI extends CustomMenu implements Closeable, SlotCondition
     }
 
     public String[] initLores(UUID uuid){
+
         String[] s = new String[4];
         s[0] = signMap.get(uuid)[0];
         s[1] = signMap.get(uuid)[1];
