@@ -3,7 +3,6 @@ package me.lukas.JenoSign.commands;
 import me.lukas.JenoSign.GUIs.SettingsGUI;
 import me.lukas.JenoSign.JenoSign;
 import me.lukas.JenoSign.util.Sign;
-import me.lukas.JenoSign.util.SignManager;
 import me.oxolotel.utils.bukkit.menuManager.InventoryMenuManager;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

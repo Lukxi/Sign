@@ -9,38 +9,14 @@ import me.lukas.JenoSign.GUIs.EditLoresGUI;
 import me.lukas.JenoSign.GUIs.SettingsGUI;
 import me.lukas.JenoSign.JenoSign;
 import me.oxolotel.utils.bukkit.menuManager.InventoryMenuManager;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class ProtocolLibReader {
 
-
-
-    private static HashMap<UUID,String>mengeInput = new HashMap<>();
-    private static HashMap<UUID,String>preisInput = new HashMap<>();
-
-    public HashMap<UUID, String> getMengeInput() {
-        return mengeInput;
-    }
-
-    public HashMap<UUID, String> getPreisInput() {
-        return preisInput;
-    }
-
-    public void removeMengeInput(Player p){
-        mengeInput.remove(p.getUniqueId());
-    }
-    public void removePreisInput(Player p){
-        preisInput.remove(p.getUniqueId());
-    }
 
     public void readWindowClickPacket(ProtocolManager pm, JenoSign main){
         if (pm != null) {
@@ -56,7 +32,6 @@ public class ProtocolLibReader {
                             }
                         }
                     }
-
                     if (invFound != null){
                         PacketContainer packet = event.getPacket();
 
@@ -67,8 +42,7 @@ public class ProtocolLibReader {
                             }
                             input = input.replace("&", "§");
                             if(p.getOpenInventory().getTitle().equalsIgnoreCase("§5§lItem-Namen bearbeiten")){
-
-                                SignManager.changeItemName(p.getUniqueId(), input);
+                                JenoSign.signMap.get(p.getUniqueId()).changeItemName(input);
                             }else if (p.getOpenInventory().getTitle().contains("Lore")){
                                 String title = p.getOpenInventory().getTitle();
                                 input = "§7"+input;
@@ -93,7 +67,6 @@ public class ProtocolLibReader {
                                     EditLoresGUI.signMap.replace(p.getUniqueId(), l);
                                 }
                             }
-
                             String title = p.getOpenInventory().getTitle();
                             PacketContainer container = new PacketContainer(PacketType.Play.Server.CLOSE_WINDOW);
                             try {
