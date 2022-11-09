@@ -1,6 +1,8 @@
 package me.lukas.JenoSign.util;
 
 import me.lukas.JenoSign.JenoSign;
+import me.oxolotel.utils.wrapped.adventure.FormatterKt;
+import net.kyori.adventure.text.format.TextColor;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
@@ -267,7 +269,7 @@ public class Sign {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        suffix = suffix.replace("&","§");
+
         String signiert = "§7Signiert von ";
         if (s == null){
             signiert = "§7Signiert ";
@@ -275,7 +277,8 @@ public class Sign {
         }else if (s.equalsIgnoreCase("Jeno")){
             signiert = "§7Signiert vom §4§lJenoMiners-Team ";
             return signiert;
-        }else return signiert + suffix + p.getName()+" ";
+
+        }else return  FormatterKt.toLegacy(FormatterKt.legacyAmp(signiert + suffix + p.getName() + " ")).replace('&', '§');
     }
 
     private ChatColor manageHex(String suffix){
