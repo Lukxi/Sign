@@ -1,7 +1,7 @@
 name: JenoSign
 version: '${project.version}'
 main: me.lukas.JenoSign.JenoSign
-api-version: 1.19
+api-version: '1.21'
 commands:
   sign:
     description: Signiere das Item in deiner Hand!
