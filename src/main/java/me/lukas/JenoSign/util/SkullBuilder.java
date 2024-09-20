@@ -19,6 +19,7 @@ public class SkullBuilder {
 
     private final ItemStack skullItem;
     private final SkullMeta skullMeta;
+    private static int currentID = 0;
 
     public SkullBuilder(String textureBase64){
         skullItem = getCustomSkull(textureBase64);
@@ -62,7 +63,7 @@ public class SkullBuilder {
         if (base64.isEmpty()) return head;
 
         SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        GameProfile profile = new GameProfile(UUID.randomUUID(), ("ID"+currentID++));
 
         profile.getProperties().put("textures", new Property("textures", base64));
 
