@@ -43,8 +43,8 @@ public class UnsignCommand implements CommandExecutor {
                                         String nameUp = Character.toUpperCase(name.charAt(0)) + name.substring(1);
                                         itemMeta.setDisplayName(ChatColor.RESET + nameUp);
 
-                                        if(itemMeta.getEnchants().containsKey(Enchantment.ARROW_INFINITE)){
-                                            itemMeta.removeEnchant(Enchantment.ARROW_INFINITE);
+                                        if(itemMeta.getEnchants().containsKey(Enchantment.LUCK_OF_THE_SEA)){
+                                            itemMeta.removeEnchant(Enchantment.LUCK_OF_THE_SEA);
                                         }
 
                                         itemStack.setItemMeta(itemMeta);

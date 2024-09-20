@@ -138,7 +138,7 @@ public class Sign {
 
         if (isEnchant){
             m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            m.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+            m.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
         }
 
         i.setItemMeta(m);
@@ -184,7 +184,7 @@ public class Sign {
 
         if (isEnchant){
             m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            m.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+            m.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
         }
 
         i.setItemMeta(m);
@@ -233,7 +233,7 @@ public class Sign {
 
         if (isEnchant){
             m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            m.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+            m.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
         }
 
         i.setItemMeta(m);
