@@ -7,6 +7,9 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -33,8 +36,11 @@ public class Sign {
 
     private boolean isEnchant;
 
+    private boolean mcLore;
 
-    public Sign(Player p, ItemStack pi, String lore){
+    private JenoSign js;
+
+    public Sign(Player p, ItemStack pi, String lore, JenoSign js) {
         this.p = p;
         this.name = p.getName();
         this.time = "normal";
@@ -45,6 +51,7 @@ public class Sign {
         lore = lore.replace("&", "§");
         lore = "§7" + lore;
         line1 = lore;
+        this.js = js;
 
     }
 
@@ -141,6 +148,29 @@ public class Sign {
             m.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
         }
 
+        if (isMcLore()){
+            m.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            m.addItemFlags(ItemFlag.HIDE_DESTROYS);
+            m.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            m.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+            m.addItemFlags(ItemFlag.HIDE_DYE);
+            m.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+            m.addItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
+            m.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(
+                    new NamespacedKey(js.getPlugin(), "dummy"),
+                    0,
+                    AttributeModifier.Operation.ADD_NUMBER
+            ));
+        }else{
+            m.removeItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            m.removeItemFlags(ItemFlag.HIDE_DESTROYS);
+            m.removeItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            m.removeItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+            m.removeItemFlags(ItemFlag.HIDE_DYE);
+            m.removeItemFlags(ItemFlag.HIDE_PLACED_ON);
+            m.removeItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
+        }
+
         i.setItemMeta(m);
         return i;
     }
@@ -185,6 +215,28 @@ public class Sign {
         if (isEnchant){
             m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             m.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
+        }
+        if (isMcLore()){
+            m.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            m.addItemFlags(ItemFlag.HIDE_DESTROYS);
+            m.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            m.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+            m.addItemFlags(ItemFlag.HIDE_DYE);
+            m.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+            m.addItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
+            m.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(
+                    new NamespacedKey(js.getPlugin(), "dummy"),
+                    0,
+                    AttributeModifier.Operation.ADD_NUMBER
+            ));
+        }else{
+            m.removeItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            m.removeItemFlags(ItemFlag.HIDE_DESTROYS);
+            m.removeItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            m.removeItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+            m.removeItemFlags(ItemFlag.HIDE_DYE);
+            m.removeItemFlags(ItemFlag.HIDE_PLACED_ON);
+            m.removeItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
         }
 
         i.setItemMeta(m);
@@ -234,6 +286,29 @@ public class Sign {
         if (isEnchant){
             m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             m.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
+        }
+
+        if (isMcLore()){
+            m.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            m.addItemFlags(ItemFlag.HIDE_DESTROYS);
+            m.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            m.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+            m.addItemFlags(ItemFlag.HIDE_DYE);
+            m.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+            m.addItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
+            m.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(
+                    new NamespacedKey(js.getPlugin(), "dummy"),
+                    0,
+                    AttributeModifier.Operation.ADD_NUMBER
+            ));
+        }else{
+            m.removeItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            m.removeItemFlags(ItemFlag.HIDE_DESTROYS);
+            m.removeItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            m.removeItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+            m.removeItemFlags(ItemFlag.HIDE_DYE);
+            m.removeItemFlags(ItemFlag.HIDE_PLACED_ON);
+            m.removeItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
         }
 
         i.setItemMeta(m);
@@ -288,6 +363,10 @@ public class Sign {
 
     public void setEnchant(boolean enchant) {
         isEnchant = enchant;
+    }
+
+    public void setMCLore(boolean showMCLore) {
+        mcLore = showMCLore;
     }
 
 
@@ -369,6 +448,7 @@ public class Sign {
     public boolean isEnchant() {
         return isEnchant;
     }
+    public boolean isMcLore(){return mcLore;}
     public String getName() {
         return name;
     }

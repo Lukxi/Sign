@@ -62,6 +62,10 @@ public class SettingsGUI extends CustomMenu implements Closeable, SlotCondition{
             InventoryMenuManager.getInstance().closeMenu(player, CloseReason.CHANGEMENU);
             InventoryMenuManager.getInstance().openMenu(player, new SignatureSettingsGUI());
         }, Material.CLOCK, "§9§lSignatur Einstellungen");
+        c.addGuiItem(40, ()->{
+            JenoSign.signMap.get(player.getUniqueId()).setMCLore(!JenoSign.signMap.get(player.getUniqueId()).isMcLore());
+            InventoryMenuManager.getInstance().getOpenMenu(player).generateInventory();
+        }, Material.HEAVY_CORE, "§9§lRemove Lore Things");
         c.addGuiItem(53, ()->{
             player.getInventory().setItemInMainHand(JenoSign.signMap.get(player.getUniqueId()).createDeploySign());
             InventoryMenuManager.getInstance().closeMenu(player,CloseReason.OTHER);

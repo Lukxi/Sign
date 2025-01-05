@@ -20,7 +20,7 @@ public final class JenoSign extends JavaPlugin {
     public JenoSign plugin;
 
     public static final String PREFIX = "§7§l[§b§lSign§7§l]";
-    public static final String VERSION = "2.1";
+    public static final String VERSION = "2.2";
 
     public static HashMap<UUID, Sign> signMap = new HashMap<>();
 
@@ -31,7 +31,7 @@ public final class JenoSign extends JavaPlugin {
         ModuleManager.loadModule(ModuleManager.getPluginModuleByClass(InventoryMenuManager.class));
 
 
-        getCommand("sign").setExecutor(new SignCommand());
+        getCommand("sign").setExecutor(new SignCommand(plugin));
         getCommand("unsign").setExecutor(new UnsignCommand());
 
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();

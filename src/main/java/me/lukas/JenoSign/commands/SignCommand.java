@@ -13,6 +13,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class SignCommand implements CommandExecutor {
 
+    JenoSign js;
+
+    public SignCommand(JenoSign js) {
+        this.js = js;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -49,7 +55,7 @@ public class SignCommand implements CommandExecutor {
                             stringBuilder.append(arg).append(" ");
 
                         }
-                        new Sign(player, player.getInventory().getItemInMainHand(), stringBuilder.toString());
+                        new Sign(player, player.getInventory().getItemInMainHand(), stringBuilder.toString(), js.getPlugin());
                         InventoryMenuManager.getInstance().openMenu(player, new SettingsGUI());
 
                     } else
